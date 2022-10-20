@@ -2,9 +2,9 @@ var canvas = document.getElementById( 'game' );
 var context = canvas.getContext( '2d' );
 
 var pumpkin=[];
-var candy={x: 0,y: 300,width: 90,heigh: 90,dx: 10,dy: 10};
+var candy={x: 0,y: 300,width: 90,height: 90,dx: 10,dy: 10};
 var timer=0;
-var marshmallow={x: 500,y: 500,width: 90,heigh: 120,dx: 90,dy: 120};
+var marshmallow={x: 500,y: 500,width: 90,height: 120};
 
 var fonimg = new Image();
 fonimg.src = 'fon.png';
@@ -34,22 +34,22 @@ function game(){
 }
 
 function update () {
+    candy.x += candy.dx;
+    candy.y += candy.dy;
 
-candy.x=candy.x+candy.dx;
-candy.y=candy.y+candy.dy;
+    if (candy.x>=930 || candy.x<0) candy.dx=-candy.dx;
+    if (candy.y>=630 || candy.y<0) candy.dy=-candy.dy;
 
-if (candy.x>=930 || candy.x<0) candy.dx=-candy.dx;
-if (candy.y>=630 || candy.y<0) candy.dy=-candy.dy;
-
-var marshmallowTopLineCollision = candy.y + candy.x > marshmallow.y;
-var marshmallowLeftLineCollision = candy.x + candy.y > marshmallow.x;
-var marshmallowRightLineCollision = candy.x - candy.y < marshmallow.x + marshmallow.width;
-var marshmallowBottomLineCollision = candy.y - candy.x < marshmallow.y + marshmallow.height;
+var marshmallowTopLineCollision = candy.y + candy.height > marshmallow.y;
+var marshmallowLeftLineCollision = candy.x + candy.width > marshmallow.x;
+var marshmallowRightLineCollision = candy.x - candy.width < marshmallow.x + marshmallow.width;
+var marshmallowBottomLineCollision = candy.y - candy.height < marshmallow.y + marshmallow.height;
 
 if (marshmallowTopLineCollision && marshmallowLeftLineCollision && marshmallowRightLineCollision && marshmallowBottomLineCollision) {
-    candy.yDirection = -candy.yDirection;
-    candy.xDirection = -candy.xDirection;
+    candy.dy = -candy.dy;
+    candy.dx = -candy.dx;
 }
+
 timer++;
 if (timer%40==0) {
     pumpkin.push({x:Math.random()*1000,y:-100,dx:Math.random()*1-1,dy:Math.random()*2+2});
@@ -69,10 +69,10 @@ if (pumpkin[i].y>=700) pumpkin.splice(i,1);
 } 
 function render(){
     context.drawImage(fonimg, 0, 0, 1000, 700);
-    context.drawImage(marshmallowimg, marshmallow.x, marshmallow.y, marshmallow.width, marshmallow.heigh);
+    context.drawImage(marshmallowimg, marshmallow.x, marshmallow.y, marshmallow.width, marshmallow.height);
     
     for(j in candy)
-    context.drawImage(candyimg, candy.x, candy.y, candy.width, candy.heigh);
+    context.drawImage(candyimg, candy.x, candy.y, candy.width, candy.height);
 
     for(i in pumpkin)
     context.drawImage(pumpkinimg, pumpkin[i].x, pumpkin[i].y, 90, 120);
@@ -88,3 +88,4 @@ function(callback){
     window.setTimeout(callback, 1000 / 20);
 }
 })();
+
