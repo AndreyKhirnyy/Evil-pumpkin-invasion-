@@ -1,0 +1,13 @@
+body {
+background:rgb(6, 3, 30);
+}
+
+#wrapper {
+    width:1000px;
+    margin:0 auto;
+}
+
+
+canvas {
+cursor:none;
+}
